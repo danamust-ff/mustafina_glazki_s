@@ -44,7 +44,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
@@ -68,48 +70,48 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Agent.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="AgentPriorityHistory.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="AgentType.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="Material.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="MaterialCountHistory.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="MaterialType.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
-    <Compile Include="mustafina_glazki.cs">
+    <Compile Include="Mustafina_glazki.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="Product.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductCostHistory.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductMaterial.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductSale.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductType.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="Shop.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Compile Include="Supplier.cs">
-      <DependentUpon>mustafina_glazki.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.tt</DependentUpon>
     </Compile>
     <Page Include="agentPage.xaml">
       <SubType>Designer</SubType>
@@ -133,15 +135,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Manager.cs" />
-    <Compile Include="mustafina_glazki.Context.cs">
+    <Compile Include="Mustafina_glazki.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>mustafina_glazki.Context.tt</DependentUpon>
+      <DependentUpon>Mustafina_glazki.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="mustafina_glazki.Designer.cs">
+    <Compile Include="Mustafina_glazki.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>mustafina_glazki.edmx</DependentUpon>
+      <DependentUpon>Mustafina_glazki.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -160,21 +162,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="mustafina_glazki.edmx">
+    <EntityDeploy Include="Mustafina_glazki.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>mustafina_glazki.Designer.cs</LastGenOutput>
+      <LastGenOutput>Mustafina_glazki.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="mustafina_glazki.edmx.diagram">
-      <DependentUpon>mustafina_glazki.edmx</DependentUpon>
+    <None Include="App.Config" />
+    <None Include="Mustafina_glazki.edmx.diagram">
+      <DependentUpon>Mustafina_glazki.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="image\Глазки-save.ico" />
@@ -318,19 +318,19 @@
     <Resource Include="image\Глазки-save.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="mustafina_glazki.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>mustafina_glazki.Context.cs</LastGenOutput>
-      <DependentUpon>mustafina_glazki.edmx</DependentUpon>
-    </Content>
-    <Content Include="mustafina_glazki.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>mustafina_glazki.edmx</DependentUpon>
-      <LastGenOutput>mustafina_glazki.cs</LastGenOutput>
-    </Content>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Content Include="Mustafina_glazki.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Mustafina_glazki.edmx</DependentUpon>
+      <LastGenOutput>Mustafina_glazki.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Mustafina_glazki.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Mustafina_glazki.edmx</DependentUpon>
+      <LastGenOutput>Mustafina_glazki.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

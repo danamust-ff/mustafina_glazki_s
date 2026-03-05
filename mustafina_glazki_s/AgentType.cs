@@ -17,7 +17,6 @@ namespace mustafina_glazki_s
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AgentType()
         {
-           
             this.Agent = new HashSet<Agent>();
         }
     

@@ -40,23 +40,23 @@ namespace mustafina_glazki_s
                 currentAgent = currentAgent.Where(p => p.AgentType.Title == "МФО").ToList();
 
             }
-            else if (ComdoType.SelectedIndex==2)
+            if (ComdoType.SelectedIndex==2)
             {
                 currentAgent = currentAgent.Where(p => p.AgentType.Title == "ООО").ToList();
             }
-            else if (ComdoType.SelectedIndex==3)
+            if (ComdoType.SelectedIndex==3)
             {
                 currentAgent = currentAgent.Where(p => p.AgentType.Title == "ЗАО").ToList();
             }
-            else if (ComdoType.SelectedIndex==4)
+            if (ComdoType.SelectedIndex==4)
             {
                 currentAgent = currentAgent.Where(p => p.AgentType.Title == "МКК").ToList();
             }
-            else if (ComdoType.SelectedIndex ==5)
+            if (ComdoType.SelectedIndex ==5)
             {
                 currentAgent = currentAgent.Where(p => p.AgentType.Title == "ОАО").ToList();
             }
-            else if (ComdoType.SelectedIndex==6)
+            if (ComdoType.SelectedIndex==6)
             {
                 currentAgent = currentAgent.Where(p => p.AgentType.Title == "ПАО").ToList();
             }
@@ -67,27 +67,38 @@ namespace mustafina_glazki_s
             {
                 currentAgent = currentAgent.OrderBy(p => p.Title).ToList();
             }
-            else if (ComboSort.SelectedIndex == 2)
+            if (ComboSort.SelectedIndex == 2)
             {
                 currentAgent = currentAgent.OrderByDescending(p => p.Title).ToList();
             }
-            else if (ComboSort.SelectedIndex == 3)
+            if (ComboSort.SelectedIndex == 3)
             {
                 currentAgent = currentAgent.OrderBy(p => p.Sales).ToList();
             }
-            else if (ComboSort.SelectedIndex == 4)
+            if (ComboSort.SelectedIndex == 4)
             {
-                currentAgent = currentAgent.OrderByDescending(p => p.Sales).ToList();
+                currentAgent = currentAgent.OrderByDescending(p => p.Sales).ToList(); //по убыванию
             }
-            else if (ComboSort.SelectedIndex == 5)
+            if (ComboSort.SelectedIndex == 5)
             {
                 currentAgent = currentAgent.OrderBy(p => p.Priority).ToList();
             }
-            else if (ComboSort.SelectedIndex == 6)
+            if (ComboSort.SelectedIndex == 6)
             {
                 currentAgent = currentAgent.OrderByDescending(p => p.Priority).ToList();
             }
-            //проверка на ввод номера и поиск дописать надо оаоаоаоа почему sales не робит?????
+
+            //проверка на ввод номера
+            string CleanPhoneNumber(string phoneNumber)
+            {
+                return phoneNumber.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", ""); //возвращает очищенный телефон агента и очищенный поисковый запрос 
+            }
+            //поиск
+            currentAgent = currentAgent.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower()) || CleanPhoneNumber(p.Phone).Contains(CleanPhoneNumber(TBoxSearch.Text)) ||
+            p.Email.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+            ListViewAgent.ItemsSource = currentAgent;  //телефон содержит строку поиска!
+ 
+    
         }
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)

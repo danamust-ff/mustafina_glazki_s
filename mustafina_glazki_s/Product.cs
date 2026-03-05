@@ -30,7 +30,7 @@ namespace mustafina_glazki_s
         public string Image { get; set; }
         public int ProductionPersonCount { get; set; }
         public int ProductionWorkshopNumber { get; set; }
-        public string MinCostForAgent { get; set; }
+        public decimal MinCostForAgent { get; set; }
     
         public virtual ProductType ProductType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

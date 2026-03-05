@@ -33,7 +33,56 @@ namespace mustafina_glazki_s
         public string DirectorName { get; set; }
         public string INN { get; set; }
         public string KPP { get; set; }
-    
+
+
+
+
+        public decimal Sales//общая сумма продаж агента (для скидки)
+        {
+            get
+            {
+                decimal s = 0; //сумма 
+                foreach (ProductSale p in ProductSale) //переборка списка всех продаж агента
+                {
+                    s += p.Stoimost; //суммирует стоимость всех проданных продаж агента за все время 
+                }
+                return s;
+            }
+        }
+
+        public int Discount//скидка (зависит от суммарных продаж выше) 
+        {
+            get
+            {
+                if (this.Sales >= 500000) //если сумма продаж (за все время) больше 500к, то возвращаем скидку 25% и тд
+                    return 25;
+                if (this.Sales >= 150000)
+                    return 20;
+                if (this.Sales >= 50000)
+                    return 10;
+                if (this.Sales >= 10000)
+                    return 5;
+                return 0;
+            }
+        }
+
+
+
+        public int SalesForYear//продажи за последний год (в шт) 
+        {
+            get
+            {
+                int s = 0;
+                foreach (ProductSale p in ProductSale) //Timespan - промеждуток времени между сегодняшним днем и датой продажи
+                {
+                    TimeSpan differenceWithoutTime = DateTime.Today.Date - p.SaleDate.Date;   //сегодня-продажа
+                    if ((int)differenceWithoutTime.TotalDays <= 365) // проверяем прошел ли с момент продажи год
+                        s += p.ProductCount;
+                }
+                return s; //возвращаем кол-во
+            }
+        }
+
         public virtual AgentType AgentType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentPriorityHistory> AgentPriorityHistory { get; set; }

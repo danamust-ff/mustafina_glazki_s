@@ -15,6 +15,7 @@ namespace mustafina_glazki_s
     
     public partial class Mustafina_glazkiEntities : DbContext
     {
+
         private static Mustafina_glazkiEntities _context;
 
         public static Mustafina_glazkiEntities GetContext()

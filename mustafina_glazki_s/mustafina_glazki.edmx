@@ -90,7 +90,7 @@
           <Property Name="Image" Type="nvarchar" MaxLength="100" />
           <Property Name="ProductionPersonCount" Type="int" Nullable="false" />
           <Property Name="ProductionWorkshopNumber" Type="int" Nullable="false" />
-          <Property Name="MinCostForAgent" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MinCostForAgent" Type="decimal" Precision="10" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="ProductCostHistory">
           <Key>
@@ -466,7 +466,7 @@
           <Property Name="Image" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ProductionPersonCount" Type="Int32" Nullable="false" />
           <Property Name="ProductionWorkshopNumber" Type="Int32" Nullable="false" />
-          <Property Name="MinCostForAgent" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MinCostForAgent" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="ProductType" Relationship="Self.FK_Product_ProductType" FromRole="Product" ToRole="ProductType" />
           <NavigationProperty Name="ProductCostHistory" Relationship="Self.FK_ProductCostHistory_Product" FromRole="Product" ToRole="ProductCostHistory" />
           <NavigationProperty Name="ProductMaterial" Relationship="Self.FK_ProductMaterial_Product" FromRole="Product" ToRole="ProductMaterial" />

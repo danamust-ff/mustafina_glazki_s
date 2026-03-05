@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
         <Image Source="/image/Глазки-save.ico" HorizontalAlignment="Left" />
         <TextBlock Text="Агентство" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-        <Frame Name="MainFrame" ContentRendered="MainFrame_ContentRendered" NavigationUIVisibility="Hidden"></Frame>
+        <Frame Name="MainFrame" ContentRendered="MainFrame_ContentRendered" NavigationUIVisibility="Hidden" Grid.Row="1"></Frame>
         <Button Content="Назад" Name="BtnBack" Width="175" Height="30" FontSize="20" Click="BtnBack_Click" HorizontalAlignment="Right" ></Button>
 
     </Grid>

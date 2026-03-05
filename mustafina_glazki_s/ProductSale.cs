@@ -22,5 +22,16 @@ namespace mustafina_glazki_s
     
         public virtual Agent Agent { get; set; }
         public virtual Product Product { get; set; }
+
+        public decimal Stoimost 
+        {
+            get
+            {
+                decimal st = 0;
+                if (Product != null)
+                    st = Product.MinCostForAgent * ProductCount;   
+                return st;
+            }
+        }
     }
 }

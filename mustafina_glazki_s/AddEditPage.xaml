@@ -17,6 +17,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -45,14 +46,13 @@
         <Button Content="Изменить" Name="ChangePictureBtn" Click="ChangePictureBtn_Click" Grid.Row="6" Grid.Column="0" FontSize="20" Width="175" Height="30" Background="#B175EE" ></Button>
         <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
             <TextBlock Text="Тип агента" FontSize="15" Width="150" Height="20"></TextBlock>
-            <ComboBox Width="100" Height="30" SelectedIndex="{Binding AgentTypeID}" FontSize="15" Name="ComboTYpe" >
-                <Label Content=""></Label>
-                <Label Content="МФО"></Label>
-                <Label Content="ООО"></Label>
-                <Label Content="ЗАО"></Label>
-                <Label Content="МКК"></Label>
-                <Label Content="ОАО"></Label>
-                <Label Content="ПАО"></Label>
+            <ComboBox Width="100" Height="30" SelectedIndex="{Binding AgentTypeID}" FontSize="15" Name="ComboTYpe">
+                <ComboBoxItem Tag="1" Content="МФО"/>
+                <ComboBoxItem Tag="2" Content="ООО"/>
+                <ComboBoxItem Tag="3" Content="ЗАО"/>
+                <ComboBoxItem Tag="4" Content="МКК"/>
+                <ComboBoxItem Tag="5" Content="ОАО"/>
+                <ComboBoxItem Tag="6" Content="ПАО"/>
             </ComboBox>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
@@ -77,5 +77,69 @@
         </StackPanel>
         <Button Content="Удалить" Name="DeleteAgent" Click="DeleteAgent_Click" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" FontSize="20" Height="30" Width="175" Background="#B175EE" ></Button>
         <Button Content="Сохранить" Name="SaveAgent" Click="SaveAgent_Click" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Height="30" FontSize="20" Width="175" Background="#B175EE" ></Button>
+
+
+        <Border Grid.Row="7" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Margin="10" Padding="10" Background="#F0F0F0">
+            <StackPanel>
+                <TextBlock Text="История продаж" FontSize="18" FontWeight="Bold" Margin="0 0 0 10"/>
+                <Border BorderBrush="DarkGray" BorderThickness="1" Padding="10" Margin="0 0 0 10" Background="White">
+                    <StackPanel>
+                        <TextBlock Text="Добавить новую продажу" FontSize="14" FontWeight="Bold" Margin="0 0 0 10"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="Продукт:" VerticalAlignment="Center" Margin="5"/>
+                            <ComboBox Grid.Column="1" Name="ProductComboBox" Height="30" Margin="5"
+          DisplayMemberPath="Title" IsEditable="True" 
+          KeyUp="ProductComboBox_KeyUp"/>
+
+                            <TextBlock Grid.Column="2" Text="Кол-во:" VerticalAlignment="Center" Margin="5"/>
+                            <TextBox Grid.Column="3" Name="CountTextBox" Height="30" Margin="5"/>
+
+                            <TextBlock Grid.Column="4" Text="Дата:" VerticalAlignment="Center" Margin="5"/>
+                            <DatePicker Grid.Column="5" Name="SaleDatePicker" Height="30" Margin="5"/>
+
+                            <Button Grid.Column="6" Content="Добавить" Name="AddSaleBtn" 
+                                        Width="100" Height="35" Margin="5" Click="AddSaleBtn_Click" 
+                                        Background="LightGreen"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+                <ListView Name="SalesListView" MinHeight="150" MaxHeight="300" Margin="0,5">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Продукт" Width="350" DisplayMemberBinding="{Binding Product.Title}"/>
+                            <GridViewColumn Header="Дата" Width="auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding SaleDate, StringFormat='dd.MM.yyyy'}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Количество" Width="80" DisplayMemberBinding="{Binding ProductCount}"/>
+                            <GridViewColumn Header="" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Удалить" Name="DeleteSaleBtn" Tag="{Binding}" 
+                                                    Click="DeleteSaleBtn_Click" 
+                                                    Background="LightCoral" Width="80" Height="25"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </StackPanel>
+        </Border>
+
+
     </Grid>
 </Page>

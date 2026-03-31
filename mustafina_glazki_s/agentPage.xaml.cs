@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,20 +17,37 @@ using System.Windows.Shapes;
 
 namespace mustafina_glazki_s
 {
-    /// <summary>
-    /// Логика взаимодействия для agentPage.xaml
-    /// </summary>
+    public class DiscountToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int discount && discount >= 25)
+            {
+                return new SolidColorBrush(Colors.LightGreen);
+            }
+            return new SolidColorBrush(Colors.Transparent);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public partial class agentPage : Page
     {
         public agentPage()
         {
             InitializeComponent();
+            LoadAgents();
+        }
+
+        private void LoadAgents()
+        {
             var currentAgent = Mustafina_glazkiEntities.GetContext().Agent.ToList();
-            ListViewAgent.ItemsSource= currentAgent;
-            ComdoType.SelectedIndex=0;
-            ComboSort.SelectedIndex=0;
+            ComdoType.SelectedIndex = 0;
+            ComboSort.SelectedIndex = 0;
             Upd();
-           
         }
 
         private void Upd()
@@ -74,11 +92,11 @@ namespace mustafina_glazki_s
             }
             if (ComboSort.SelectedIndex == 3)
             {
-                currentAgent = currentAgent.OrderBy(p => p.Sales).ToList();
+                currentAgent = currentAgent.OrderBy(p => p.Discount).ToList();
             }
             if (ComboSort.SelectedIndex == 4)
             {
-                currentAgent = currentAgent.OrderByDescending(p => p.Sales).ToList(); //по убыванию
+                currentAgent = currentAgent.OrderByDescending(p => p.Discount).ToList();
             }
             if (ComboSort.SelectedIndex == 5)
             {
@@ -92,46 +110,48 @@ namespace mustafina_glazki_s
             //проверка на ввод номера
             string CleanPhoneNumber(string phoneNumber)
             {
-                return phoneNumber.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", ""); //возвращает очищенный телефон агента и очищенный поисковый запрос 
+                return phoneNumber.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "");
             }
             //поиск
-            currentAgent = currentAgent.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower()) || CleanPhoneNumber(p.Phone).Contains(CleanPhoneNumber(TBoxSearch.Text)) ||
-            p.Email.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
-            ListViewAgent.ItemsSource = currentAgent;        //телефон содержит строку поиска!
+            currentAgent = currentAgent.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower()) ||
+                CleanPhoneNumber(p.Phone).Contains(CleanPhoneNumber(TBoxSearch.Text)) ||
+                p.Email.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+
             TableList = currentAgent; //сохранение тек результата
             ChangePage(0, 0);
-
-
         }
+
         //страницы
-        int CountRecords; //кол-во записей 
-        int CountPage; //общее кол-во стр
-        int CurrentPage = 0; //текущ стр (0)
-        int RecordsPage = 20; //кол-во записей на 1 стр
+        int CountRecords;
+        int CountPage;
+        int CurrentPage = 0;
+        int RecordsPage = 20;
         List<Agent> CurrentPageList = new List<Agent>();
         List<Agent> TableList;
 
         private void ChangePage(int direction, int? selectedPage)
         {
-            CurrentPageList.Clear(); //список тек стр
-            CountRecords = TableList.Count; //подсчет кол-ва записей 
+            CurrentPageList.Clear();
+            CountRecords = TableList.Count;
             CountPage = (CountRecords + RecordsPage - 1) / RecordsPage;
 
-            if (selectedPage.HasValue && selectedPage >= 0 && selectedPage < CountPage) //стр 1 2 3 4
+            if (CountPage == 0) CountPage = 1;
+
+            if (selectedPage.HasValue && selectedPage >= 0 && selectedPage < CountPage)
             {
-                CurrentPage = (int)selectedPage; //переходим на выбранную стр
+                CurrentPage = (int)selectedPage;
             }
-            else //стрелки
+            else
             {
-                if (direction == 1 && CurrentPage > 0) //предыдущая стр 
+                if (direction == 1 && CurrentPage > 0)
                 {
                     CurrentPage--;
                 }
-                else if (direction == 2 && CurrentPage < CountPage - 1) //след стр
+                else if (direction == 2 && CurrentPage < CountPage - 1)
                 {
                     CurrentPage++;
                 }
-                else return; //если изменений не было то выход                                                    
+                else return;
             }
 
             int startIn = CurrentPage * RecordsPage;
@@ -140,18 +160,16 @@ namespace mustafina_glazki_s
             {
                 CurrentPageList.Add(TableList[i]);
             }
-            //обновление 
+
             PageListBox.Items.Clear();
-            for (int i = 1; i<=CountPage; i++)
+            for (int i = 1; i <= CountPage; i++)
             {
                 PageListBox.Items.Add(i);
             }
             PageListBox.SelectedIndex = CurrentPage;
             ListViewAgent.ItemsSource = CurrentPageList;
             ListViewAgent.Items.Refresh();
-            
         }
-        
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -168,14 +186,23 @@ namespace mustafina_glazki_s
             Upd();
         }
 
+     
         private void ListViewAgent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Upd();
+            int selectedCount = ListViewAgent.SelectedItems.Count;
+            if (selectedCount > 1)
+            {
+                ChangePriorityBtn.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ChangePriorityBtn.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void LeftButton_Click(object sender, RoutedEventArgs e)
         {
-            ChangePage(1, null); 
+            ChangePage(1, null);
         }
 
         private void RightButton_Click(object sender, RoutedEventArgs e)
@@ -185,12 +212,10 @@ namespace mustafina_glazki_s
 
         private void PageListBox_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString()) - 1);
-        }
-
-        private void AddAgent_Click(object sender, RoutedEventArgs e)
-        {
-
+            if (PageListBox.SelectedItem != null)
+            {
+                ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString()) - 1);
+            }
         }
 
         private void AddAgent_Click_1(object sender, RoutedEventArgs e)
@@ -201,6 +226,79 @@ namespace mustafina_glazki_s
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Agent));
+        }
+
+        // Реализация кнопки изменения приоритета
+        private async void ChangePriorityBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedAgents = ListViewAgent.SelectedItems.Cast<Agent>().ToList();
+
+            if (selectedAgents.Count == 0)
+            {
+                MessageBox.Show("Выберите хотя бы одного агента!", "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            int maxPriority = 0;
+            foreach (var agent in selectedAgents)
+            {
+                if (agent.Priority > maxPriority)
+                {
+                    maxPriority = agent.Priority;
+                }
+            }
+
+            // Создаем модальное окно для ввода нового приоритета
+            var inputDialog = new PrioritetWindow1($"Введите новый приоритет для {selectedAgents.Count} агентов:", maxPriority);
+
+            if (inputDialog.ShowDialog() == true)
+            {
+                int newPriority = inputDialog.Result;
+
+                if (newPriority < 0)
+                {
+                    MessageBox.Show("Приоритет не может быть отрицательным!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                try
+                {
+                    var context = Mustafina_glazkiEntities.GetContext();
+
+                    foreach (var agent in selectedAgents)
+                    {
+                        var agentToUpdate = context.Agent.FirstOrDefault(a => a.ID == agent.ID);
+                        if (agentToUpdate != null)
+                        {
+                            agentToUpdate.Priority = newPriority;
+
+                            
+                            var priorityHistory = new AgentPriorityHistory
+                            {
+                                AgentID = agentToUpdate.ID,
+                               
+                                PriorityValue = newPriority,
+
+                                ChangeDate = DateTime.Now
+                            };
+
+                            // Добавляем в контекст
+                            context.AgentPriorityHistory.Add(priorityHistory);
+                        }
+                    }
+
+                    await context.SaveChangesAsync();
+
+                    // Обновляем интерфейс
+                    LoadAgents();
+                    MessageBox.Show($"Приоритет {selectedAgents.Count} агентов успешно изменен на {newPriority}!",
+                        "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при сохранении: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }

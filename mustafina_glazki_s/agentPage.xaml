@@ -4,9 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:mustafina_glazki_s"
+      
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="1000"
       Title="agentPage" FontFamily="Century Gothic" >
+
+    <Page.Resources>
+        <local:DiscountToColorConverter x:Key="DiscountToColorConverter"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -20,6 +25,11 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Button Content="Добавить агента" Name="AddAgent" Click="AddAgent_Click_1" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" FontSize="20" Height="30" Width="200"  Background="#FFBA0EED" ></Button>
+        <!-- Новая кнопка для изменения приоритета -->
+        <Button Name="ChangePriorityBtn" Content="Изменить приоритет на ..." 
+                Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" 
+                FontSize="20" Height="30" Width="250" Background="#B175EE"
+                Click="ChangePriorityBtn_Click" Visibility="Collapsed"/>
         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0" Grid.ColumnSpan="3">
             <StackPanel Margin="10" Orientation="Horizontal" >
                 <TextBlock Text="поиск по наименованию" FontSize="15" ></TextBlock>
@@ -49,10 +59,10 @@
             </StackPanel>
         </WrapPanel>
 
-        <ListView Name="ListViewAgent" Grid.Row="1" Grid.ColumnSpan="3" SelectionChanged="ListViewAgent_SelectionChanged" d:ItemsSource="{d:SampleData ItemCount=5}">
+        <ListView Name="ListViewAgent"  SelectionMode="Extended"  Grid.Row="1" Grid.ColumnSpan="3" SelectionChanged="ListViewAgent_SelectionChanged" d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid Background="{Binding Discount, Converter={StaticResource DiscountToColorConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="700"/>
@@ -65,6 +75,7 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
+                        
                         <Image Width="100" Grid.Column="0"  Stretch="Uniform" HorizontalAlignment="Center">
                             <Image.Style>
                                     <Style TargetType="Image">

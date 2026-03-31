@@ -19,6 +19,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Button Content="Добавить агента" Name="AddAgent" Click="AddAgent_Click_1" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" FontSize="20" Height="30" Width="200"  Background="#FFBA0EED" ></Button>
         <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="0" Grid.ColumnSpan="3">
             <StackPanel Margin="10" Orientation="Horizontal" >
                 <TextBlock Text="поиск по наименованию" FontSize="15" ></TextBlock>
@@ -36,7 +37,7 @@
                 </ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10" >
-                <ComboBox Name="ComdoType" SelectionChanged="ComdoType_SelectionChanged" FontSize="15" Width="150">
+                <ComboBox Name="ComdoType" SelectionChanged="ComdoType_SelectionChanged"  FontSize="15" Width="150">
                     <TextBlock>Все типы</TextBlock>
                     <TextBlock>МФО</TextBlock>
                     <TextBlock>ООО</TextBlock>
@@ -64,17 +65,22 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Image Width="100" Grid.Column="0" Grid.RowSpan="4" Stretch="Uniform" HorizontalAlignment="Center">
-                            <Image.Source>
-                                <Binding Path="Logo">
-                                    <Binding.TargetNullValue>
-                                        image/picture.png
-                                    </Binding.TargetNullValue>
-                                </Binding>
-                            </Image.Source>
-                        </Image>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
+                        <Image Width="100" Grid.Column="0"  Stretch="Uniform" HorizontalAlignment="Center">
+                            <Image.Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Source" Value="{Binding Logo}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Logo}" Value="{x:Null}">
+                                                <Setter Property="Source" Value="/image/picture.png"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Logo}" Value="">
+                                                <Setter Property="Source" Value="/image/picture.png"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
                             <TextBlock Text="{Binding AgentType.Title}" FontSize="20" Margin="5"></TextBlock>
                             <TextBlock Text="|" FontSize="20" Margin="5"></TextBlock>
                             <TextBlock Text="{Binding Title}" FontSize="20" TextWrapping="Wrap" Margin="5"></TextBlock>
@@ -97,10 +103,22 @@
                             <TextBlock Text="скидка" FontSize="20"></TextBlock>
                             <TextBlock Text="{Binding Discount, StringFormat={}{0}%}" FontSize="25" ></TextBlock>
                         </StackPanel>
+                        <Button  Grid.Column="3"  Grid.Row="3" Name="EditBtn" Click="EditBtn_Click" Content="Редактировать" Background="#B175EE" ></Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="LeftButton" Content="&lt;" Width="20" Height="20" Click="LeftButton_Click"  Background="#B175EE" ></Button>
+            <ListBox FontSize="20" Name="PageListBox" MouseUp="PageListBox_MouseUp" >
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <Button Name="RightButton" Content="&gt;" Width="20" Height="20" Click="RightButton_Click"  Background="#B175EE"  ></Button>
+        </StackPanel>
 
     </Grid>
 </Page>

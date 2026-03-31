@@ -11,7 +11,8 @@ namespace mustafina_glazki_s
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.IO;
+
     public partial class Agent
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -28,6 +29,8 @@ namespace mustafina_glazki_s
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Logo { get; set; }
+
+
         public string Address { get; set; }
         public int Priority { get; set; }
         public string DirectorName { get; set; }
@@ -76,12 +79,41 @@ namespace mustafina_glazki_s
                 foreach (ProductSale p in ProductSale) //Timespan - промеждуток времени между сегодняшним днем и датой продажи
                 {
                     TimeSpan differenceWithoutTime = DateTime.Today.Date - p.SaleDate.Date;   //сегодня-продажа
-                    if ((int)differenceWithoutTime.TotalDays <= 365) // проверяем прошел ли с момент продажи год
+                   // if ((int)differenceWithoutTime.TotalDays <= 365) // проверяем прошел ли с момент продажи год
                         s += p.ProductCount;
                 }
                 return s; //возвращаем кол-во
             }
         }
+
+        public string AgentPhotoPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Logo))
+                    return null;
+
+                // Извлекаем только имя файла (после последнего слеша)
+                string fileName = Logo;
+                int lastSlash = fileName.LastIndexOfAny(new[] { '\\', '/' });
+                if (lastSlash >= 0)
+                    fileName = fileName.Substring(lastSlash + 1);
+
+                // Убираем возможные ведущие слеши (на всякий случай)
+                fileName = fileName.TrimStart('\\', '/');
+
+                // Строим путь к папке imgs/agents
+                string fullPath = Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "Imgs", "agents", fileName);
+
+                // Если файл существует – возвращаем путь, иначе null
+                return File.Exists(fullPath) ? fullPath : null;
+            }
+        }
+
+
+
 
         public virtual AgentType AgentType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
